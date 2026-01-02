@@ -14,39 +14,111 @@ html, body {
   width:100%; height:100%;
   background:black; color:white;
   font-family:"Determination", monospace;
-}
-
-body {
   display:flex;
   align-items:center;
   justify-content:center;
-  text-align:center;
 }
 
 .box {
   padding:32px;
   border:2px solid white;
   min-width:360px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
 }
-
-ul {list-style:none; padding:0; margin:0;}
-li {margin:14px 0;}
-a {color:white; text-decoration:none; font-size:26px;}
-a:hover {color:yellow;}
 
 .header {
   font-size:32px;
   margin-bottom:24px;
-  color:cyan;
+  color: yellow;
+}
+
+ul {
+  list-style:none;
+  padding:0;
+  margin:0;
+  text-align:center;
+}
+
+li {
+  margin:14px 0;
+}
+
+a {
+  color:white;
+  text-decoration:none;
+  font-size:26px;
+  display:inline-block;
+}
+
+a:hover {
+  color:yellow;
 }
 </style>
 </head>
 <body>
+
+<div style="position: fixed; top: 10px; left: 10px; z-index: 9999;">
+    <a href="index.html" style="text-decoration: none; display: inline-block;">
+        <img src="logo.png" alt="Logo" style="width: 120px; height: auto; max-height: 120px;">
+    </a>
+</div>
+
+
+<audio id="bg-music" loop style="display: none;">
+    <source src="bg.mp3" type="audio/mpeg">
+</audio>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var bgMusic = document.getElementById('bg-music');
+        if (bgMusic) {
+            bgMusic.volume = 0.5; // Set to 50% volume
+            // Try to play and handle autoplay restrictions
+            bgMusic.play().catch(function(error) {
+                console.log("Autoplay was prevented:", error);
+                // Create a user interaction handler to start music
+                function startMusicOnInteraction() {
+                    bgMusic.play().then(function() {
+                        console.log("Music started after user interaction");
+                    }).catch(function(e) {
+                        console.log("Still couldn't play:", e);
+                    });
+                    // Remove event listeners after first interaction
+                    document.removeEventListener('click', startMusicOnInteraction);
+                    document.removeEventListener('keydown', startMusicOnInteraction);
+                    document.removeEventListener('touchstart', startMusicOnInteraction);
+                }
+                // Wait for user interaction
+                document.addEventListener('click', startMusicOnInteraction);
+                document.addEventListener('keydown', startMusicOnInteraction);
+                document.addEventListener('touchstart', startMusicOnInteraction);
+            });
+        }
+    });
+</script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var header = document.querySelector('.header');
+    if (header) {
+        // 1% chance for purple header and "Welcome!" text
+        if (Math.random() < 0.01) {
+            header.style.color = '#800080';
+            header.textContent = 'Welcome!';
+        }
+        // Otherwise it stays yellow with the default text
+    }
+});
+</script>
+
 <div class="box">
-  <div class="header">Welcome to the Newsletter Archive!</div>
-  <ul>
-    <li><a href="newsletters_modified/December 2025 Newsletter.html">* December 2025 Newsletter</a></li>
-  </ul>
+    <div class="header">Welcome to the Partymax Newsletter Archive!</div>
+    <ul>
+        <li><a href="newsletters_modified/December 2025 Newsletter.html">* December 2025 Newsletter</a></li>
+    </ul>
 </div>
 </body>
 </html>
