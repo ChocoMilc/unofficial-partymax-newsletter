@@ -258,6 +258,12 @@ html_index = f"""<!DOCTYPE html>
   src: url("determination.ttf") format("truetype");
 }}
 
+* {{
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  -ms-interpolation-mode: nearest-neighbor;
+}}  
+
 html, body {{
   margin:0; padding:0;
   width:100%; height:100%;
