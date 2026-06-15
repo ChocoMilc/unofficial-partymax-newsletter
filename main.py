@@ -153,7 +153,18 @@ def modify_newsletter_html(html_content, filename):
     return str(soup)
 
 # === PROCESS AND SAVE MODIFIED NEWSLETTERS ===
-newsletter_files = sorted(f for f in os.listdir(html_folder) if f.lower().endswith(".html"))
+# Get all HTML files with their modification times
+newsletter_files_with_time = []
+for f in os.listdir(html_folder):
+    if f.lower().endswith(".html"):
+        file_path = os.path.join(html_folder, f)
+        mod_time = os.path.getmtime(file_path)  # Get modification time
+        newsletter_files_with_time.append((mod_time, f))
+
+# Sort by modification time (newest first, oldest last)
+newsletter_files_with_time.sort(reverse=True)  # reverse=True puts newest first
+newsletter_files = [f for mod_time, f in newsletter_files_with_time]
+
 modified_files = []
 
 for file in newsletter_files:
@@ -170,7 +181,7 @@ for file in newsletter_files:
 
     modified_files.append(file)
 
-print(f"Modified {len(modified_files)} newsletters into '{modified_folder}'.")
+print(f"Modified {len(modified_files)} newsletters into '{modified_folder}' (sorted newest first).")
 
 # === GENERATE MAIN INDEX.HTML ===
 html_menu_items = [f'<li><a href="{modified_folder}/{f}">* {os.path.splitext(f)[0]}</a></li>' for f in modified_files]
